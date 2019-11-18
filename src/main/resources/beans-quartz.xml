@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--1.job作业-->
+    <bean id="logPrinter" class="com.ujiuye.job.LogPrinter"></bean>
+
+    <!-- 2.JobDetail对象-->
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="logPrinter"></property>
+        <property name="targetMethod" value="printLog"></property>
+    </bean>
+
+    <!--3.配置trigger触发器 -->
+    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="jobDetail" />
+        <!-- run every morning at 6 AM -->
+        <property name="cronExpression" value="0/5 * * * * ?" />
+    </bean>
+
+    <!-- 4.配置scheduler容器 -->
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger" />
+            </list>
+        </property>
+    </bean>
+</beans>

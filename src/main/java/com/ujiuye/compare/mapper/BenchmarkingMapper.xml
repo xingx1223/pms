@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ujiuye.compare.mapper.BenchmarkingMapper" >
+
+    <insert id="saveInfo">
+        insert into benchmarking
+        values (null,#{compnayName},#{salesAmount},#{year},#{business},#{priority},#{disadvantage},
+         #{status},#{emp_count},#{createTime},#{simpleDesc})
+    </insert>
+
+    <!--<resultMap id="baseResultMap" type="com.ujiuye.compare.bean.Benchmarking">
+        <id column="id"property="id"></id>
+        <result column=""property="compnayName"></result>
+       <result column=""property="salesAmount"></result>&ndash;&gt;
+    </resultMap>-->
+
+    <select id="getList" resultType="com.ujiuye.compare.bean.Benchmarking">
+        SELECT b.`company_pame` compnayName,b.`sales_amount` salesAmount
+        FROM benchmarking b
+        WHERE YEAR=#{year};
+    </select>
+</mapper>
